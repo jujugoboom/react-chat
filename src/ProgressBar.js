@@ -9,7 +9,8 @@ class ProgressBar extends Component{
     getProgress(){
         let amount = parseInt(((this.props.done/this.props.total)*100) % 10);
         let symbol = '#';
-        return symbol.repeat(amount);
+        let progress = symbol.repeat(amount) + '. '.repeat(10-amount);
+        return progress
     }
     getPercentage(){
         return parseInt((this.props.done/this.props.total)*100)
@@ -17,7 +18,7 @@ class ProgressBar extends Component{
     render(){
         var totalProgress;
         var percentage;
-        totalProgress = <div>{this.getProgress()}</div>
+        totalProgress = <div>[{this.getProgress()}]</div>
         console.log(totalProgress);
         percentage = <div>{this.getPercentage()}%</div>
         console.log(percentage);

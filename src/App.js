@@ -4,13 +4,13 @@ import './App.css';
 import * as firebase from 'firebase';
 import UpdateProfile from "./UpdateProfile"
 
-const Pages = {
-    UpdateProfile: <UpdateProfile />,
-    Contacts: "Contacts",
-    MessageThread: "Message Thread"
-}
 
 class App extends Component {
+    let Pages = {
+      UpdateProfile: <UpdateProfile />,
+      Contacts: "Contacts",
+      MessageThread: "Message Thread"
+    }
     constructor(props){
       super(props);
       this.state = {};
@@ -20,6 +20,7 @@ class App extends Component {
       else{
         this.state = {currentPage: Pages.Contacts};
       }
+      this.changePage = this.changePage.bind(this);
     }
     changePage(page){
       this.setState({currentPage: page});

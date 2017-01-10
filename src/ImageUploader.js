@@ -9,6 +9,7 @@ class ImageUploader extends Component {
       file: null,
       data_uri: null,
       processing: false,
+      uploaded: false,
       bytesSent: 0,
       bytesTotal: 0
     }
@@ -36,7 +37,8 @@ class ImageUploader extends Component {
 
     }, () => {
         this.setState({
-            processing: false
+            processing: false,
+            uploaded: true
         });
         if(this.props.onComplete){
             this.props.onComplete(uploadTask.snapshot.downloadURL);
@@ -48,6 +50,10 @@ class ImageUploader extends Component {
     const reader = new FileReader();
     const file = e.target.files[0];
     this.setState({file: file});
+    reader.addEventListener('load', () => {
+      this.setState({data_uri: reader.result});
+    });
+    reader.readAsDataURL(file);
   }
   updateProgress(snapshot){
       this.setState({bytesSent: snapshot.bytesTransferred});
@@ -58,22 +64,20 @@ class ImageUploader extends Component {
     let processing;
     let uploaded;
     let preview;
-    if(this.state.file){
-        this.preview = <img src={this.state.file} height={200}/>
+    if(this.state.data_uri){
+        preview = <div><img src={this.state.data_uri} height={200}/></div>
     }
 
-    if (this.state.uploaded_uri) {
+    if (this.state.uploaded) {
       uploaded = (
         <div>
-          <h4>Image uploaded!</h4>
-          <img className='image-preview' src={this.state.uploaded_uri} />
-          <pre className='image-link-box'>{this.state.uploaded_uri}</pre>
+          Image uploaded!
         </div>
       );
     }
 
     if (this.state.processing) {
-      processing = <ProgressBar done={this.state.bytesSent} total={this.state.total}/>
+      processing = <ProgressBar done={this.state.bytesSent} total={this.state.bytesTotal}/>
     }
 
     return (

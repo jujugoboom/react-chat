@@ -46,7 +46,7 @@ class UpdateProfile extends Component{
                 <input type="text" value={this.state.username} onChange={this.handleUsernameChange} />
                 </label>
                 </div>
-                <button onClick={this.handleSubmit}>Save</button>
+                <button onClick={this.handleSubmit} disabled={this.state.username === ''}>Save</button>
             </div>);
     }
 }
