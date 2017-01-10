@@ -2,25 +2,30 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
-import UpdateProfile from "./UpdateProfile"
+import UpdateProfile from "./UpdateProfile";
+import Contacts from "./Contacts";
 
 
 class App extends Component {
-    let Pages = {
-      UpdateProfile: <UpdateProfile />,
-      Contacts: "Contacts",
-      MessageThread: "Message Thread"
-    }
     constructor(props){
       super(props);
       this.state = {};
+      this.changePage = this.changePage.bind(this);
+      this.handleUpdatedProfile = this.handleUpdatedProfile.bind(this);
+      this.pages = {
+        updateProfile: <UpdateProfile onFinish={this.handleUpdatedProfile} />,
+        contacts: <Contacts />,
+        messageThread: <MessageThread />
+      };
       if(firebase.auth().currentUser.displayName === null){
-        this.state = {currentPage: Pages.UpdateProfile};
+        this.state = {currentPage: this.pages.updateProfile};
       }
       else{
-        this.state = {currentPage: Pages.Contacts};
+        this.state = {currentPage: this.pages.contacts};
       }
-      this.changePage = this.changePage.bind(this);
+    }
+    handleUpdatedProfile(){
+      this.changePage(this.pages.contacts);
     }
     changePage(page){
       this.setState({currentPage: page});

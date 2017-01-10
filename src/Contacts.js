@@ -28,3 +28,5 @@ class Contacts extends Component{
         return(<div></div>)
     }
 }
+
+export default Contacts;
