@@ -6,12 +6,12 @@ class UpdateProfile extends Component{
     constructor(props){
         super(props);
         this.currentUser = firebase.auth().currentUser;
-        this.database = firebase.database().ref('users/' + this.currentUser.uid);
+        this.database = firebase.database().ref('users/');
         this.state = {username: this.currentUser.displayName, picture: this.currentUser.photoURL, error: ''};
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePhotoChange = this.handlePhotoChange.bind(this);
-        this.firebaseUploadLocation = firebase.storage().ref().child("users/" + this.currentUser.uid + "/profilePicture.png")
+        this.firebaseUploadLocation = firebase.storage().ref().child("users/" + this.currentUser.uid + "/profilePicture.png");
     }
     handleUsernameChange(event){
         this.setState({username: event.target.value});
@@ -21,10 +21,13 @@ class UpdateProfile extends Component{
     }
     handleSubmit(){
         this.currentUser.updateProfile({displayName: this.state.username, photoURL: this.state.picture}).then(() => {
+            this.database.child(this.currentUser.uid).set({username: this.state.username});
+            this.database.child("usernames/").set({uid: this.currentUser.uid});
             this.props.onFinish();
         }).catch((e) => {
             this.setState({error: e});
         });
+        
     }
     render(){
         var errorDiv;
