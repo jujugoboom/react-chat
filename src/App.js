@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
-import UpdateProfile from "./UpdateProfile";
-import Contacts from "./Contacts";
+import UpdateProfile from "./Profile/UpdateProfile";
+import Contacts from "./Contacts/Contacts";
 
 
 class App extends Component {
