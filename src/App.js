@@ -4,6 +4,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import UpdateProfile from "./Profile/UpdateProfile";
 import Contacts from "./Contacts/Contacts";
+import ProfileHeader from "./Profile/ProfileHeader";
 
 
 class App extends Component {
@@ -24,9 +25,13 @@ class App extends Component {
         this.state = {currentPage: this.pages.contacts, error: ''};
       }
       this.logout = this.logout.bind(this);
+      this.changeToUpdateProfile = this.changeToUpdateProfile.bind(this);
     }
     handleUpdatedProfile(){
       this.changePage(this.pages.contacts);
+    }
+    changeToUpdateProfile(){
+      this.changePage(this.changePage.updateProfile);
     }
     changePage(page){
       this.setState({currentPage: page});
@@ -46,6 +51,7 @@ class App extends Component {
         <div>
         <div className="logout">
           <button onClick={this.logout}>Log out</button>
+          <ProfileHeader callback={this.changeToUpdateProfile}/>
         </div>
         <div className="App">
           {currentPage}
